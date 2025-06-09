@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Додати автора</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    {% extends 'base.html' %}
+
+    {% block title %}Список файлів{% endblock %}
+
+    {% block content %}
+<div class="container">
+    <h1>Додати нового автора</h1>
+
+    <form method="POST">
+        <label for="name">Ім'я автора:</label>
+        <input type="text" id="name" name="name" required>
+        <button type="submit">Додати</button>
+    </form>
+
+    <h2>Список авторів</h2>
+
+    <div class="authors-list">
+        {% for author in authors %}
+        <div class="author-item">
+            <span class="author-name">{{ author.name }}</span>
+            <form action="{{ url_for('delete_author', author_id=author.id) }}" method="POST" class="delete-form">
+                <button type="submit" onclick="return confirm('Видалити цього автора?')" class="delete-button">Видалити</button>
+            </form>
+        </div>
+        {% else %}
+            <p>Немає авторів.</p>
+        {% endfor %}
+    </div>
+    
+
+</div>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список файлів</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    {% extends 'base.html' %}
+
+    {% block title %}Список файлов{% endblock %}
+
+    {% block content %}
+    <h1>Список файлів</h1>
+
+    <form method="GET" action="{{ url_for('list_files') }}">
+        <label for="search">Пошук по назві:</label>
+        <input type="text" id="search" name="search" value="{{ search_query }}" placeholder="Введите имя файла">
+
+        <label for="author_id">Оберіть автора:</label>
+        <select name="author_id" id="author_id">
+            <option value="">Всі автори</option>
+            {% for author in authors %}
+            <option value="{{ author.id }}" {% if request.args.get('author_id') == author.id|string %}selected{% endif %}>
+                {{ author.name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label for="sort">Сортувати по даті:</label>
+        <select name="sort" id="sort">
+            <option value="asc" {% if sort_order == 'asc' %}selected{% endif %}>По зростанню</option>
+            <option value="desc" {% if sort_order == 'desc' %}selected{% endif %}>По спаданню</option>
+        </select>
+
+        <button type="submit">Застосувати</button>
+    </form>
+
+    <h2>Файли</h2>
+    <ul class="file-list">
+        {% if files %}
+            {% for file in files %}
+                <li class="file-item">
+                    <div class="file-name">{{ file.filename }}</div>
+                    <div class="file-meta">
+                        (Автор: {{ file.author.name }}) 
+                        - 
+                        {% if file.upload_date %}
+                            {{ file.upload_date.strftime('%Y-%m-%d %H:%M:%S') }}
+                        {% else %}
+                            Немає дати
+                        {% endif %}
+                    </div>
+                    <div class="file-actions">
+                        <a href="{{ url_for('download_file', filename=file.filename) }}" class="download-link">Завантажити</a>
+                        <form action="{{ url_for('delete_file', file_id=file.id) }}" method="POST" class="delete-form">
+                            <button type="submit" onclick="return confirm('Видалити цей файл?')" class="delete-button">Видалити</button>
+                        </form>
+                    </div>
+                    
+                </li>
+            {% endfor %}
+        {% else %}
+            <p>Немає файлів.</p>
+        {% endif %}
+    </ul>
+    
+    
+
+
+    {% endblock %}
+</body>
+</html>

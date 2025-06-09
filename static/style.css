@@ -1,0 +1,183 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f2f5;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #222;
+}
+
+form {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+form label {
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+form input[type="text"],
+form select {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    min-width: 200px;
+    transition: border-color 0.3s;
+}
+
+form input[type="text"]:focus,
+form select:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+form button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #45a049;
+}
+
+.file-list {
+    list-style: none;
+    padding: 0;
+}
+
+.file-item {
+    background: #fff;
+    margin-bottom: 15px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.file-name {
+    font-weight: 700;
+    font-size: 1.1em;
+    flex: 2;
+}
+
+.file-meta {
+    text-align: center;
+    flex: 2;
+    color: #666;
+}
+
+.file-actions {
+    gap: 8px;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.download-link {
+    background-color: #2196F3;
+    color: white;
+    text-decoration: none;
+}
+
+.download-link:hover {
+    background-color: #1976D2;
+    transform: translateY(-1px);
+}
+
+.delete-button {
+    background-color: #e53935;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background-color: #c62828;
+    transform: translateY(-1px);
+}
+
+.download-link, .delete-button {
+    padding: 6px 10px;
+    font-size: 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-align: center;
+    min-width: 80px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+a {
+    display: inline-block;
+    margin-top: 30px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+a:hover {
+    background-color: #45a049;
+}
+
+.delete-form {
+    margin: 0;
+    padding: 0;
+    display: inline; /* Чтобы форма не ломала структуру */
+}
+
+
+
+.authors-list {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.author-item {
+    background: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.author-name {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.delete-form button {
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header class="site-header">
+        <nav>
+            <a href="{{ url_for('upload_file') }}">Завантажити файл</a>
+            <a href="{{ url_for('list_files') }}">Список файлів</a>
+            <a href="{{ url_for('add_author') }}">Автори</a>
+            <a href="{{ url_for('author_activity') }}">Активність</a>
+        </nav>
+    </header>
+
+    <!-- Основной контент -->
+    <main class="site-main">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Футер -->
+    <footer class="site-footer">
+
+    </footer>
+
+</body>
+</html>
