@@ -5,3 +5,4 @@ sqlalchemy
 alembic
 matplotlib
 werkzeug
+gunicorn
