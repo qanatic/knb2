@@ -153,17 +153,17 @@ def author_activity():
 
 
     fig1, ax1 = plt.subplots()
-    ax1.bar(['Общее количество файлов'], [total_files]) 
-    ax1.set_ylabel('Количество файлов')
-    ax1.set_title(f'Общее количество файлов с {start_date.strftime("%Y-%m-%d") if start_date else "не указано"} по {end_date.strftime("%Y-%m-%d")}')
+    ax1.bar(['Загальна кількість файлів'], [total_files]) 
+    ax1.set_ylabel('Кількість файлів')
+    ax1.set_title(f'Загальна кількість файлів с {start_date.strftime("%Y-%m-%d") if start_date else "не вказано"} по {end_date.strftime("%Y-%m-%d")}')
 
 
     fig2, ax2 = plt.subplots()
     authors_names = list(author_file_counts.keys())
     author_counts = list(author_file_counts.values())
     ax2.bar(authors_names, author_counts)
-    ax2.set_ylabel('Количество файлов')
-    ax2.set_title(f'Количество файлов по авторам с {start_date.strftime("%Y-%m-%d") if start_date else "не указано"} по {end_date.strftime("%Y-%m-%d")}')
+    ax2.set_ylabel('Кількість файлів')
+    ax2.set_title(f'Кількість файлів по авторам з {start_date.strftime("%Y-%m-%d") if start_date else "не вказано"} по {end_date.strftime("%Y-%m-%d")}')
 
     img1 = io.BytesIO()
     fig1.savefig(img1, format='png')
