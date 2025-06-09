@@ -155,7 +155,7 @@ def author_activity():
     fig1, ax1 = plt.subplots()
     ax1.bar(['Загальна кількість файлів'], [total_files]) 
     ax1.set_ylabel('Кількість файлів')
-    ax1.set_title(f'Загальна кількість файлів с {start_date.strftime("%Y-%m-%d") if start_date else "не вказано"} по {end_date.strftime("%Y-%m-%d")}')
+    ax1.set_title(f'Загальна кількість файлів з {start_date.strftime("%Y-%m-%d") if start_date else "не вказано"} по {end_date.strftime("%Y-%m-%d")}')
 
 
     fig2, ax2 = plt.subplots()
