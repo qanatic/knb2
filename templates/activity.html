@@ -1,17 +1,9 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Аналітика активності</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Аналітика активності{% endblock %}
+
+{% block content %}
 <div class="container">
-    {% extends 'base.html' %}
-
-    {% block title %}Список файлов{% endblock %}
-
-    {% block content %}
     <h1>Аналітика активності</h1>
 
     <form method="POST">
@@ -27,15 +19,13 @@
     <h2>Загальна кількість файлів: {{ total_files }}</h2>
 
     <div style="text-align: center;">
-        <h2>Графік загальної кількості</h2>
-        <img src="data:image/png;base64,{{ graph_url1 }}" alt="Графік загальної кількості">
+    <h2>Графік загальної кількості</h2>
+    <img src="data:image/png;base64,{{ graph_url1 }}" alt="Графік загальної кількості"
+         style="display: block; margin: 0 auto; max-width: 100%; height: auto;">
 
-        <h2>Графік по авторам</h2>
-        <img src="data:image/png;base64,{{ graph_url2 }}" alt="Графік по авторам">
-    </div>
-
+    <h2>Графік по авторам</h2>
+    <img src="data:image/png;base64,{{ graph_url2 }}" alt="Графік по авторам"
+         style="display: block; margin: 0 auto; max-width: 100%; height: auto;">
 </div>
-
+</div>
 {% endblock %}
-</body>
-</html>

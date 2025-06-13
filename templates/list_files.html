@@ -1,73 +1,72 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Список файлів</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    {% extends 'base.html' %}
+{% extends 'base.html' %}
 
-    {% block title %}Список файлов{% endblock %}
+{% block title %}Список файлів{% endblock %}
 
-    {% block content %}
-    <h1>Список файлів</h1>
+{% block content %}
+<h1>Список файлів</h1>
 
-    <form method="GET" action="{{ url_for('list_files') }}">
-        <label for="search">Пошук по назві:</label>
-        <input type="text" id="search" name="search" value="{{ search_query }}" placeholder="Введите имя файла">
+<form method="GET" action="{{ url_for('list_files') }}">
+    <label for="search">Пошук по назві:</label>
+    <input type="text" id="search" name="search" value="{{ request.args.get('search', '') }}" placeholder="Введіть ім'я файлу">
 
-        <label for="author_id">Оберіть автора:</label>
-        <select name="author_id" id="author_id">
-            <option value="">Всі автори</option>
-            {% for author in authors %}
-            <option value="{{ author.id }}" {% if request.args.get('author_id') == author.id|string %}selected{% endif %}>
+    <label>Оберіть авторів:</label>
+    <div class="authors-checkboxes" style="max-height: 150px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 6px; margin-bottom: 15px;">
+        {% set selected_authors = request.args.getlist('author_ids') %}
+        {% for author in authors %}
+            <label style="display: block; margin-bottom: 5px; cursor: pointer;">
+                <input type="checkbox" name="author_ids" value="{{ author.id }}"
+                    {% if author.id|string in selected_authors %}checked{% endif %}>
                 {{ author.name }}
-            </option>
-            {% endfor %}
-        </select>
+            </label>
+        {% endfor %}
+    </div>
 
-        <label for="sort">Сортувати по даті:</label>
-        <select name="sort" id="sort">
-            <option value="asc" {% if sort_order == 'asc' %}selected{% endif %}>По зростанню</option>
-            <option value="desc" {% if sort_order == 'desc' %}selected{% endif %}>По спаданню</option>
-        </select>
+    <label>Фільтр по даті:</label>
+    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+        З:
+        <input type="date" name="date_from" value="{{ request.args.get('date_from', '') }}" placeholder="Дата з">
+        По:
+        <input type="date" name="date_to" value="{{ request.args.get('date_to', '') }}" placeholder="Дата до">
+    </div>
 
-        <button type="submit">Застосувати</button>
-    </form>
+    <button type="submit">Застосувати</button>
+    <a href="{{ url_for('list_files') }}" class="delete-button">Скинути фільтри</a>
+</form>
 
-    <h2>Файли</h2>
-    <ul class="file-list">
-        {% if files %}
-            {% for file in files %}
-                <li class="file-item">
-                    <div class="file-name">{{ file.filename }}</div>
-                    <div class="file-meta">
-                        (Автор: {{ file.author.name }}) 
-                        - 
-                        {% if file.upload_date %}
-                            {{ file.upload_date.strftime('%Y-%m-%d %H:%M:%S') }}
-                        {% else %}
-                            Немає дати
-                        {% endif %}
-                    </div>
-                    <div class="file-actions">
-                        <a href="{{ url_for('download_file', filename=file.filename) }}" class="download-link">Завантажити</a>
-                        <form action="{{ url_for('delete_file', file_id=file.id) }}" method="POST" class="delete-form">
-                            <button type="submit" onclick="return confirm('Видалити цей файл?')" class="delete-button">Видалити</button>
-                        </form>
-                    </div>
-                    
-                </li>
-            {% endfor %}
-        {% else %}
-            <p>Немає файлів.</p>
-        {% endif %}
-    </ul>
-    
-    
+<h2>Файли</h2>
+<ul class="file-list">
+    {% if files %}
+        {% for file in files %}
+            <li class="file-item">
+                <div class="file-name">{{ file.filename }}</div>
+                <div class="file-meta">
+                    {% if file.publisher %}
+                        <p><strong>Видавництво:</strong> <br>{{ file.publisher }}</p>
+                    {% endif %}
 
+                    <p><strong>Автори:</strong>
+                        {% for author in file.authors %}
+                            <br> {{ author.name }}{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
 
-    {% endblock %}
-</body>
-</html>
+                    {% if file.upload_date %}
+                        <p><strong>Дата:</strong> <br>{{ file.upload_date.strftime('%d.%m.%Y') }}</p>
+                    {% else %}
+                        <p><strong>Дата:</strong> Немає дати</p>
+                    {% endif %}
+                </div>
+
+                <div class="file-actions">
+                    <a href="{{ url_for('download_file', filename=file.filename) }}" class="download-link">Завантажити</a>
+                    <form action="{{ url_for('delete_file', file_id=file.id) }}" method="POST" class="delete-form">
+                        <button type="submit" onclick="return confirm('Видалити цей файл?')" class="delete-button">Видалити</button>
+                    </form>
+                </div>
+            </li>
+        {% endfor %}
+    {% else %}
+        <p>Немає файлів.</p>
+    {% endif %}
+</ul>
+{% endblock %}

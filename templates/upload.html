@@ -18,12 +18,24 @@
         <label for="file">Оберіть файл:</label>
         <input type="file" name="file" id="file" required>
 
-        <label for="author_id">Оберіть автора:</label>
-        <select name="author_id" id="author_id" required>
+        <label for="custom_filename">Введіть назву файлу:</label>
+        <input type="text" name="custom_filename" placeholder="Введіть назву файла" id="custom_filename" required >
+
+        <label for="publisher">Видавництво:</label>
+<input type="text" name="publisher" id="publisher" value="{{ request.form.publisher or '' }}">
+
+        <label>Оберіть авторів:</label>
+        <div>
             {% for author in authors %}
-            <option value="{{ author.id }}">{{ author.name }}</option>
+            <label>
+                <input type="checkbox" name="author_ids" value="{{ author.id }}">
+                {{ author.name }}
+            </label><br>
             {% endfor %}
-        </select>
+        </div>
+
+        <label for="upload_date">Введіть дату:</label>
+        <input type="datetime-local" name="upload_date" id="upload_date">
 
         <button type="submit">Завантажити</button>
     </form>

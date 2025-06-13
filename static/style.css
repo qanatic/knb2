@@ -11,47 +11,85 @@ h1, h2 {
     color: #222;
 }
 
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
 form {
     background: #fff;
-    padding: 20px;
-    margin-bottom: 30px;
+    padding: 30px 25px;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
+    flex-direction: column;
+    gap: 18px;
 }
 
 form label {
     font-weight: 600;
-    margin-right: 10px;
+    margin-bottom: 6px;
+    color: #444;
+    font-size: 16px;
 }
 
+form input[type="file"],
 form input[type="text"],
-form select {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
+form input[type="datetime-local"] {
+    padding: 10px 14px;
     border-radius: 8px;
-    min-width: 200px;
-    transition: border-color 0.3s;
+    border: 1.5px solid #ccc;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+form input[type="file"] {
+    padding: 6px 10px;
 }
 
 form input[type="text"]:focus,
-form select:focus {
+form input[type="datetime-local"]:focus,
+form input[type="file"]:focus {
     border-color: #4CAF50;
     outline: none;
+}
+
+form > div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding-left: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fafafa;
+}
+
+form > div label {
+    font-weight: normal;
+    font-size: 15px;
+    cursor: pointer;
+    user-select: none;
+}
+
+form input[type="checkbox"] {
+    margin-right: 8px;
+    cursor: pointer;
 }
 
 form button {
     background-color: #4CAF50;
     color: white;
-    padding: 10px 16px;
+    padding: 14px 22px;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 18px;
     cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease;
 }
 
 form button:hover {
@@ -63,6 +101,17 @@ form button:hover {
     padding: 0;
 }
 
+.file-name {
+    max-width: 320px;
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 8px;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: block;
+}
+
 .file-item {
     background: #fff;
     margin-bottom: 15px;
@@ -70,27 +119,28 @@ form button:hover {
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-}
-
-.file-name {
-    font-weight: 700;
-    font-size: 1.1em;
-    flex: 2;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 20px;
 }
 
 .file-meta {
-    text-align: center;
-    flex: 2;
-    color: #666;
+    display: flex;
+    gap: 30px;
+    font-size: 1em;
+    font-weight: 500;
+    color: #000000;
+}
+
+.file-meta span {
+    white-space: nowrap;
 }
 
 .file-actions {
-    gap: 8px;
-    flex: 1;
-    justify-content: center;
+    gap: 10px;
+    flex-shrink: 0;
+    justify-content: flex-end;
     align-items: center;
 }
 
@@ -98,6 +148,12 @@ form button:hover {
     background-color: #2196F3;
     color: white;
     text-decoration: none;
+    padding: 6px 10px;
+    font-size: 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-align: center;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .download-link:hover {
@@ -110,21 +166,17 @@ form button:hover {
     border: none;
     color: white;
     cursor: pointer;
-}
-
-.delete-button:hover {
-    background-color: #c62828;
-    transform: translateY(-1px);
-}
-
-.download-link, .delete-button {
     padding: 6px 10px;
     font-size: 14px;
     border-radius: 6px;
     font-weight: 600;
     text-align: center;
-    min-width: 80px;
     transition: background-color 0.3s, transform 0.2s;
+}
+
+.delete-button:hover {
+    background-color: #c62828;
+    transform: translateY(-1px);
 }
 
 a {
@@ -146,10 +198,8 @@ a:hover {
 .delete-form {
     margin: 0;
     padding: 0;
-    display: inline; /* Чтобы форма не ломала структуру */
+    display: inline;
 }
-
-
 
 .authors-list {
     margin-top: 30px;
@@ -171,6 +221,7 @@ a:hover {
 .author-name {
     font-size: 18px;
     font-weight: 500;
+    color: #000000;
 }
 
 .delete-form button {
@@ -180,4 +231,138 @@ a:hover {
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s;
+}
+
+.file-meta-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.file-meta-block {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    padding: 15px 20px;
+    width: 200px;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    color: #333;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.file-meta-block strong {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+/* 📱 Адаптація для мобільних пристроїв */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        max-width: 100%;
+        padding: 0 10px;
+    }
+
+    h1, h2 {
+        font-size: 20px;
+    }
+
+    form {
+        padding: 15px 10px;
+        gap: 12px;
+    }
+
+    form input[type="file"],
+    form input[type="text"],
+    form input[type="datetime-local"] {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+
+    form label {
+        font-size: 14px;
+    }
+
+    form > div {
+        padding: 8px;
+        max-height: 150px;
+    }
+
+    .file-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 15px;
+    }
+
+    .file-name {
+        font-size: 16px;
+    }
+
+    .file-meta {
+        flex-direction: column;
+        gap: 6px;
+        font-size: 14px;
+    }
+
+    .file-actions {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .download-link,
+    .delete-button {
+        width: 100%;
+        font-size: 14px;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .authors-list {
+        gap: 10px;
+    }
+
+    .author-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 14px;
+    }
+
+    .author-name {
+        font-size: 16px;
+    }
+
+    .file-meta-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .file-meta-block {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .file-meta-block strong {
+        font-size: 16px;
+    }
+
+    a {
+        width: 100%;
+        text-align: center;
+        font-size: 14px;
+        padding: 8px 12px;
+    }
 }
