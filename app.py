@@ -11,7 +11,7 @@ import base64
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres.hpmfkifmugvnbmlggsex:Qwe123rty%40@aws-0-eu-north-1.pooler.supabase.com:6543/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres.hpmfkifmugvnbmlggsex:Qwe123rty%40@aws-0-eu-north-1.pooler.supabase.com:5432/postgres'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -24,11 +24,13 @@ file_author = db.Table('file_author',
 )
 
 class Author(db.Model):
+    __tablename__ = 'author'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     files = db.relationship('UploadedFile', secondary=file_author, back_populates='authors')
 
 class UploadedFile(db.Model):
+    __tablename__ = 'uploaded_file'
     id = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String(255), nullable=False)
     filepath = db.Column(db.String(255), nullable=False)
@@ -250,9 +252,6 @@ def download_file(filename):
     
 
 
-
-with app.app_context():
-    db.create_all()
 
 if __name__ == '__main__':
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
