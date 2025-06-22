@@ -60,42 +60,49 @@ def upload_file():
     if request.method == 'POST':
         author_ids = request.form.getlist('author_ids')
         file = request.files['file']
+
         if file and author_ids:
             custom_name = request.form.get('custom_filename', '').strip()
             if not custom_name:
                 custom_name = os.path.splitext(file.filename)[0]
 
             ext = os.path.splitext(file.filename)[1]
-            filename = (custom_name + ext)
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            filename = custom_name + ext
+
+            upload_folder = app.config['UPLOAD_FOLDER']
+            os.makedirs(upload_folder, exist_ok=True)
+
+            filepath = os.path.join(upload_folder, filename)
 
             if os.path.exists(filepath):
-                filename = f"{(custom_name)}_{datetime.utcnow().strftime('%Y%m%d%H%M%S')}{ext}"
-                filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                filename = f"{custom_name}_{datetime.utcnow().strftime('%Y%m%d%H%M%S')}{ext}"
+                filepath = os.path.join(upload_folder, filename)
 
             file.save(filepath)
 
-            upload_date_str = request.form.get('upload_date', '').strip()
+            filepath_for_db = filepath.replace("\\", "/")
 
-            if upload_date_str:
-                try:
-                    upload_date = datetime.strptime(upload_date_str, '%Y-%m-%dT%H:%M')
-                except ValueError:
-                    upload_date = datetime.utcnow()  # fallback у випадку помилки
-            else:
+            upload_date_str = request.form.get('upload_date', '').strip()
+            try:
+                upload_date = datetime.strptime(upload_date_str, '%Y-%m-%dT%H:%M') if upload_date_str else datetime.utcnow()
+            except ValueError:
                 upload_date = datetime.utcnow()
 
             publisher = request.form.get('publisher', '').strip()
 
-            new_file = UploadedFile(filename=filename, filepath=filepath, upload_date=upload_date, publisher=publisher)
+            new_file = UploadedFile(
+                filename=filename,
+                filepath=filepath_for_db,
+                upload_date=upload_date,
+                publisher=publisher
+            )
 
-            
-            # Добавляем авторов
             authors = Author.query.filter(Author.id.in_(author_ids)).all()
             new_file.authors = authors
 
             db.session.add(new_file)
             db.session.commit()
+
             return redirect(url_for('upload_file'))
 
     authors = Author.query.all()
@@ -103,9 +110,10 @@ def upload_file():
 
 
 
+
 @app.route('/files', methods=['GET'])
 def list_files():
-    author_ids = request.args.getlist('author_ids')  # список id авторов (много)
+    author_ids = request.args.getlist('author_ids')
     sort_order = request.args.get('sort', 'asc')
     search_query = request.args.get('search', '').strip()
     date_from_str = request.args.get('date_from')
